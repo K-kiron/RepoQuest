@@ -92,6 +92,8 @@ def load_case(path):
         relative_path(name)
         require(name not in blobs, "License paths must be separate from code and manifest")
         blobs[name] = read_file(path.parent, name)
+    require("verification.json" not in {name.casefold() for name in blobs},
+            "verification.json is reserved for generated evidence; do not use it as an input")
     if provenance["kind"] == "git-import":
         for key in ("before_commit", "after_commit"):
             require(re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", str(provenance.get(key, ""))), f"Missing full {key}")
@@ -127,7 +129,7 @@ def load_case(path):
     for suspect in suspects:
         require(isinstance(suspect, dict), "Each suspect must be an object")
         text_field(suspect.get("name"), "suspect.name")
-        require(suspect.get("ref") in ids, "Suspects must cite an evidence ID")
+        require(isinstance(suspect.get("ref"), str) and suspect["ref"] in ids, "Suspects must cite an evidence ID")
     names = [s["name"] for s in suspects]
     require(len(set(names)) == len(names) and solution["function"] in names, "Solution must match a unique candidate function")
     require(any(blobs[f"before/{p}"] != blobs[f"after/{p}"] for p in files), "Before and after snapshots are identical")
@@ -195,9 +197,19 @@ def run_snapshot(case, blobs, version, timeout):
 
 def validate_results(report):
     try:
+        for key in ("captured_at", "python", "platform"):
+            text_field(report.get(key), f"verification.{key}")
         before, after = report["before"], report["after"]
         for label, result in (("before", before), ("after", after)):
-            require(result["tests"] > 0, f"{label}: no tests ran")
+            require(isinstance(result, dict), f"{label}: malformed test result")
+            text_field(result.get("log"), f"{label}.log")
+            require(type(result["tests"]) is int and result["tests"] > 0, f"{label}: no tests ran")
+            for key in ("test_ids", "failures", "errors"):
+                require(isinstance(result[key], list) and all(isinstance(v, str) for v in result[key]),
+                        f"{label}: malformed {key}")
+            require(len(result["test_ids"]) == result["tests"], f"{label}: test count does not match IDs")
+            for key in ("skipped", "expected_failures", "unexpected_successes"):
+                require(type(result[key]) is int and result[key] >= 0, f"{label}: malformed {key}")
             require(not result["errors"], f"{label}: test errors do not count as a reproduced bug")
             require(not any(result[k] for k in ("skipped", "expected_failures", "unexpected_successes")), f"{label}: skipped or expected-failure tests cannot verify a quest")
         require(before["failures"], "before: expected an assertion failure, but all tests passed")
@@ -218,7 +230,20 @@ def verify(path, trust_code=False, timeout=10):
         report[version] = run_snapshot(case, blobs, version, timeout)
     validate_results(report)
     destination = Path(path).resolve().parent / "verification.json"
-    destination.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    require(not destination.is_symlink(), "verification.json must not be a symlink")
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n",
+                                         dir=destination.parent, prefix=".repoquest-",
+                                         suffix=".json", delete=False) as handle:
+            temporary = Path(handle.name)
+            json.dump(report, handle, indent=2)
+            handle.write("\n")
+        # Replacing the directory entry never truncates a hard-linked target.
+        temporary.replace(destination)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
     return report
 
 

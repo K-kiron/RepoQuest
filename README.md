@@ -1,6 +1,12 @@
 # RepoQuest
 
-**A bug is a story. Find the missing link.**
+**Turn a reproducible bug into a five-minute detective game.**
+
+[![Verify quests](https://github.com/K-kiron/RepoQuest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/K-kiron/RepoQuest/actions/workflows/ci.yml)
+[![MIT license](https://img.shields.io/badge/license-MIT-194f41)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-194f41)](pyproject.toml)
+
+**[Play the demo](https://k-kiron.github.io/RepoQuest/)** · **[Install the skill](#install-the-skill)** · **[Download v0.1.0](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0)** · **[Create a case](#make-another-case)**
 
 Turn a fixed Python bug into a five-minute debugging mystery: inspect the evidence, name the responsible function, follow a hint if needed, then reveal the exact patch and its passing tests.
 
@@ -10,11 +16,32 @@ RepoQuest is an installable Agent Skill with a small, standard-library Python CL
 
 ## Play the first case
 
-Download or clone this repository and open **[demo/index.html](demo/index.html)** in a modern browser. On GitHub, download the HTML first; the repository file viewer does not run it.
+Open the **[live case](https://k-kiron.github.io/RepoQuest/)**, or download the standalone HTML from the [release](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0). The repository's [demo/index.html](demo/index.html) is the same case; GitHub's file viewer does not execute it.
 
 **Who ordered the extra cake?** A customer's special order appears on the next customer's receipt. Follow the requests, inspect the code, and find what crossed the counter.
 
 This is an original, clearly labeled teaching fixture, not a historical third-party incident. Its defect is executable: the same four behavior tests produce **two assertion failures before the fix and four passes after it**. The captured [verification record](examples/borrowed-menu/verification.json) binds the exact source, contract, manifest, and license bytes.
+
+| Inspect | Investigate | Reveal |
+|---|---|---|
+| Read source excerpts and the failing test log. Every excerpt has a file, line range, and fingerprint. | Select a candidate function, record your theory, and open up to three progressively stronger hints. | Compare your reasoning with the actual patch and the same tests passing after the fix. |
+
+## Install the skill
+
+From the project where you want to use RepoQuest, run:
+
+```sh
+npx skills add K-kiron/RepoQuest --skill repoquest --agent codex
+```
+
+Then start a fresh task in that project:
+
+```text
+Use $repoquest to turn this fixed Python bug into a debugging mystery.
+Use the before and after snapshots in <case-directory> and preserve their provenance.
+```
+
+The [Skills CLI](https://github.com/vercel-labs/skills) needs Node.js; RepoQuest's helper needs Python 3.10+. To install without Node.js, extract the release's `repoquest` skill folder into your project's `.agents/skills/` directory. Installation and discovery have been tested with Codex. Other hosts have not been validated.
 
 ## Run it locally
 
@@ -37,7 +64,7 @@ repoquest --help
 
 The package contains the same renderer and CLI as the portable skill. No package has been published to a registry.
 
-## Install the skill in Codex
+### Manual installation from a clone
 
 Copy the **entire** `skills/repoquest` directory into a target project's `.agents/skills/` directory. Keep `SKILL.md`, `scripts/`, `references/`, and `agents/` together.
 
@@ -56,7 +83,7 @@ Use $repoquest to turn this fixed Python bug into a debugging quest.
 Use the before and after snapshots in <case-directory> and preserve their provenance.
 ```
 
-The [skill entry point](skills/repoquest/SKILL.md) tells the agent how to select evidence, curate hints, run the verifier, and check the resulting page. Current host verification is recorded in [docs/verification.md](docs/verification.md). Other skill hosts have not been validated.
+The [skill entry point](skills/repoquest/SKILL.md) tells the agent how to select evidence, curate hints, run the verifier, and check the resulting page. Current host verification is recorded in [docs/verification.md](docs/verification.md).
 
 ## Make another case
 
@@ -89,6 +116,10 @@ python -m unittest discover -s tests -v
 
 Tests exercise the real before/after path, local Git commit import, execution consent, stale evidence, invalid citations, failure classification, timeout handling, and escaping. See [verification scope](docs/verification.md) for the observed environment and browser checks. To refresh the committed demo after changing case inputs, run `verify` followed by `build`.
 
+Contributions should improve a complete investigation or add a reproducible case. See [CONTRIBUTING.md](CONTRIBUTING.md), the [case proposal form](https://github.com/K-kiron/RepoQuest/issues/new?template=case-proposal.yml), and the [changelog](CHANGELOG.md). Release artifacts can be rebuilt with [the release instructions](docs/releasing.md).
+
 Related work: [codebase-to-course](https://github.com/zarazhangrui/codebase-to-course) turns repositories into interactive courses. RepoQuest focuses on one reproducible failure, cited reasoning, and a verified patch reveal. Its implementation and skill text are original.
+
+Repository organization draws on the self-contained skills in [anthropics/skills](https://github.com/anthropics/skills), the installation and distribution approach of [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills), and the explicit host guidance in [obra/superpowers](https://github.com/obra/superpowers). References describe design influences, not endorsements.
 
 Licensed under [MIT](LICENSE). Imported cases retain their original notices and may have different redistribution terms.

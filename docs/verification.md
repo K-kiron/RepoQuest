@@ -1,10 +1,10 @@
 # Verification scope
 
-This record describes the local 0.1.0 candidate. It is evidence of the checked paths, not a benchmark of learning outcomes or model quality.
+This record describes the 0.1.0 verification scope. It is evidence of the checked paths, not a benchmark of learning outcomes or model quality.
 
 ## Observed environment
 
-Windows, Python 3.11.5, Git 2.42.0; Codex CLI 0.147.0 for skill discovery; the Codex in-app Chromium browser for rendered interaction checks. Python 3.10 and 3.13 on Ubuntu and Windows are included in the CI workflow but have not yet run on hosted CI.
+Local checks used Windows, Python 3.11.5, Git 2.42.0; Codex CLI 0.147.0 for skill discovery; and the Codex in-app Chromium browser for rendered interaction checks. The [hosted CI records](https://github.com/K-kiron/RepoQuest/actions/workflows/ci.yml) show results for Python 3.10 and 3.13 on Ubuntu and Windows, plus installation through the Skills CLI.
 
 ## Core paths
 
@@ -27,6 +27,8 @@ A separate forward-test used a different self-authored bug: an explicitly config
 
 The full skill folder was copied into a fresh temporary project's `.agents/skills/repoquest`. Codex's `skills/list` returned exactly one enabled `repoquest` with repository scope and the copied `SKILL.md` path. The copied helper successfully checked the bundled case. No global skill installation was needed.
 
+Skills CLI 1.7.0 was also run against the local repository in an isolated project with `--skill repoquest --agent codex --copy --yes`. It found and installed one skill; the installed helper checked the bundled case. The distribution test builds the ZIP twice, compares bytes, verifies checksums, extracts it, and builds the demo through the extracted helper.
+
 A wheel was built locally with `pip install . --no-build-isolation --no-deps --target <temporary-directory>`. Importing the installed package and rendering the bundled case succeeded, including access to its packaged HTML template. The primary supported path remains the dependency-free portable script. Other agent hosts were not tested.
 
 ## Browser checks
@@ -48,4 +50,4 @@ The in-app browser's URL policy blocked direct `file://` navigation. That browse
 
 ## Remaining limits
 
-Execution inherits the invoking user's local access. The timeout does not provide process-tree, filesystem, network, or memory isolation. Use a separately managed disposable environment for untrusted cases. Reports are local integrity records, not signed attestations; the narrative and license declaration require author review. No hosted release, deployment, third-party case evaluation, or measured skill uplift is claimed.
+Execution inherits the invoking user's local access. The timeout does not provide process-tree, filesystem, network, or memory isolation. Use a separately managed disposable environment for untrusted cases. Reports are local integrity records, not signed attestations; the narrative and license declaration require author review. No third-party case evaluation or measured skill uplift is claimed.

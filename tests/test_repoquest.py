@@ -3,6 +3,7 @@
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -47,6 +48,44 @@ class QuestTests(unittest.TestCase):
     def test_execution_requires_explicit_trust(self):
         with self.assertRaisesRegex(QuestError, "Execution is disabled"):
             verify(self.path)
+
+    def test_report_name_cannot_be_used_for_input_evidence(self):
+        original = (self.case_dir / "verification.json").read_bytes()
+        self.update(lambda d: d["provenance"]["license_files"].append("verification.json"))
+        with self.assertRaisesRegex(QuestError, "reserved"):
+            verify(self.path, True)
+        self.assertEqual((self.case_dir / "verification.json").read_bytes(), original)
+
+    def test_atomic_report_write_preserves_hard_link_target(self):
+        target = self.root / "unrelated.txt"
+        target.write_text("Preserve this file.", encoding="utf-8")
+        report = self.case_dir / "verification.json"
+        report.unlink()
+        os.link(target, report)
+        verify(self.path, True)
+        self.assertEqual(target.read_text(encoding="utf-8"), "Preserve this file.")
+        self.assertEqual(load_verified(self.path)[2]["after"]["tests"], 4)
+
+    def test_malformed_candidate_reference_returns_clean_error(self):
+        self.update(lambda d: d["suspects"][0].update(ref=[]))
+        output = io.StringIO()
+        with contextlib.redirect_stderr(output):
+            self.assertEqual(main(["check", str(self.path)]), 2)
+        self.assertIn("evidence ID", output.getvalue())
+
+    def test_incomplete_reports_are_rejected_before_rendering(self):
+        path = self.case_dir / "verification.json"
+        original = path.read_text(encoding="utf-8")
+        for section, field in ((None, "captured_at"), (None, "python"), (None, "platform"),
+                               ("before", "log"), ("after", "log")):
+            with self.subTest(section=section, field=field):
+                report = json.loads(original)
+                del (report[section] if section else report)[field]
+                path.write_text(json.dumps(report), encoding="utf-8")
+                output = io.StringIO()
+                with contextlib.redirect_stderr(output):
+                    self.assertEqual(main(["build", str(self.path), "--output", str(self.root / "bad.html")]), 2)
+                self.assertFalse((self.root / "bad.html").exists())
 
     def test_check_and_build_never_execute_fixture(self):
         marker = self.root / "executed"

@@ -1,0 +1,31 @@
+name: Propose a debugging case
+description: Suggest one reproducible failure that makes a useful short investigation.
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Case concept
+      description: One sentence describing the observable failure.
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Source type
+      options:
+        - Self-authored teaching fixture
+        - Public repository history
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Reproduction and provenance
+      description: Describe the before/after behavior, common test, source commits where applicable, and redistribution license. Do not submit private code or logs.
+    validations:
+      required: true
+  - type: textarea
+    id: lesson
+    attributes:
+      label: Investigation value
+      description: What should a player infer from the evidence?
