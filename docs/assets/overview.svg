@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="452" viewBox="0 0 1080 452" role="img" aria-labelledby="title desc">
+  <title id="title">From a fixed bug to a playable investigation</title>
+  <desc id="desc">Prepare broken and fixed Python code with one test contract. Investigate cited evidence with progressive hints. Reveal the exact patch and the same tests passing. Share one offline HTML case file.</desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="1080" height="452" rx="12" fill="#153d34"/>
+  <rect width="1080" height="452" rx="12" fill="url(#grid)"/>
+  <path d="M36 35h18v26H36zM41 31h18v26" fill="none" stroke="#dcab78" stroke-width="2"/>
+  <text x="72" y="52" fill="#edddc4" font-family="Consolas, monospace" font-size="16" letter-spacing="2">REPOQUEST / THE CASE FILE</text>
+  <text x="36" y="116" fill="#faf6ec" font-family="Georgia, serif" font-size="48">A real failure. A trail of evidence. Your call.</text>
+  <g font-family="Segoe UI, sans-serif">
+    <rect x="36" y="158" width="318" height="212" rx="4" fill="#f4f0e6"/>
+    <rect x="381" y="158" width="318" height="212" rx="4" fill="#f4f0e6"/>
+    <rect x="726" y="158" width="318" height="212" rx="4" fill="#f4f0e6"/>
+    <g fill="#48685c" font-family="Consolas, monospace" font-size="15" letter-spacing="1.5">
+      <text x="60" y="190">01 / AUTHOR</text>
+      <text x="405" y="190">02 / PLAYER</text>
+      <text x="750" y="190">03 / PLAYER</text>
+    </g>
+    <g fill="#183f35" font-family="Georgia, serif" font-size="34">
+      <text x="60" y="233">Prepare.</text>
+      <text x="405" y="233">Investigate.</text>
+      <text x="750" y="233">Reveal.</text>
+    </g>
+    <g stroke="#c8cbbd"><path d="M60 250H330M405 250H675M750 250H1020"/></g>
+    <g fill="#26483d" font-size="22">
+      <text x="60" y="281">Broken + fixed code</text>
+      <text x="60" y="313">One test contract</text>
+      <text x="60" y="345">Curated clues</text>
+      <text x="405" y="281">Read cited evidence</text>
+      <text x="405" y="313">Build your theory</text>
+      <text x="405" y="345">Follow the hints</text>
+      <text x="750" y="281">The exact patch</text>
+      <text x="750" y="313">The explanation</text>
+      <text x="750" y="345">Same tests, passing</text>
+    </g>
+    <g fill="none" stroke="#dcab78" stroke-width="2"><path d="M359 265h17m-5-5 5 5-5 5M704 265h17m-5-5 5 5-5 5"/></g>
+    <circle cx="43" cy="414" r="4" fill="#dcab78"/>
+    <text x="58" y="421" fill="#f4f0e6" font-size="21">One offline HTML file.</text>
+    <text x="1044" y="420" text-anchor="end" fill="#cfdbcf" font-size="19">No account. No server. Just the case.</text>
+  </g>
+</svg>

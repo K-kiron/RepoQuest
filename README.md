@@ -1,30 +1,45 @@
 # RepoQuest
 
-**Turn a reproducible bug into a five-minute detective game.**
+**Read the code. Follow the evidence. Solve the bug.**
+
+RepoQuest turns a fixed Python bug into a playable debugging mystery. Authors use an **Agent Skill or Python CLI** to curate code, clues, and a shared test contract into **one offline HTML case file**. Players investigate the failure before revealing the fix.
 
 [![Verify quests](https://github.com/K-kiron/RepoQuest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/K-kiron/RepoQuest/actions/workflows/ci.yml)
 [![MIT license](https://img.shields.io/badge/license-MIT-194f41)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-194f41)](pyproject.toml)
 
-**[Play the demo](https://k-kiron.github.io/RepoQuest/)** · **[Install the skill](#install-the-skill)** · **[Download v0.1.0](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0)** · **[Create a case](#make-another-case)**
+**[Play the demo →](https://k-kiron.github.io/RepoQuest/)** · **[Install the skill](#install-the-skill)** · **[Create a case](#make-another-case)** · **[Download v0.1.0](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0)**
 
-Turn a fixed Python bug into a five-minute debugging mystery: inspect the evidence, name the responsible function, follow a hint if needed, then reveal the exact patch and its passing tests.
+<a href="https://k-kiron.github.io/RepoQuest/">
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/assets/overview-mobile.svg">
+    <img src="docs/assets/overview.svg" width="100%" alt="RepoQuest workflow: prepare before and after code with one test contract; investigate cited code, failing tests, and progressive hints; reveal the exact patch and passing tests. Share the case as one offline HTML file.">
+  </picture>
+</a>
 
-RepoQuest is an installable Agent Skill with a small, standard-library Python CLI. It produces one offline HTML file. No account, server, package installation, or network connection is needed to play.
+*Workflow overview. [Open the interactive case](https://k-kiron.github.io/RepoQuest/) to use the evidence, hints, and reveal controls.*
 
-![The RepoQuest case file interface](demo/preview.png)
+## What you can do
+
+1. **Prepare a case.** Supply broken and fixed Python snapshots, one shared `unittest` contract, and source/license details. Curate the story, cited excerpts, candidate functions, and hints. Verify the reproduction, then build the HTML.
+2. **Investigate the bug.** Read the failing test log and source excerpts. Follow file and line citations, choose a candidate function, and write a theory. Open progressively stronger hints when needed.
+3. **Reveal the explanation.** Confirm when ready to see the responsible function, exact patch, and the same tests passing after the fix. Compare the explanation with your reasoning.
+
+**For players:** a browser is enough. Downloaded cases need no account, installation, server, or network connection. **For authors:** Python 3.10+ is required; the portable CLI has no third-party dependencies.
 
 ## Play the first case
 
-Open the **[live case](https://k-kiron.github.io/RepoQuest/)**, or download the standalone HTML from the [release](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0). The repository's [demo/index.html](demo/index.html) is the same case; GitHub's file viewer does not execute it.
+### Who ordered the extra cake?
 
-**Who ordered the extra cake?** A customer's special order appears on the next customer's receipt. Follow the requests, inspect the code, and find what crossed the counter.
+A customer's special order appears on the next customer's receipt. Follow the requests, inspect the code, and find what crossed the counter. Allow about five minutes; there is no timer.
 
-This is an original, clearly labeled teaching fixture, not a historical third-party incident. Its defect is executable: the same four behavior tests produce **two assertion failures before the fix and four passes after it**. The captured [verification record](examples/borrowed-menu/verification.json) binds the exact source, contract, manifest, and license bytes.
+| The case | The evidence |
+|---|---|
+| Original, fictional cafe scenario | Reproducible Python behavior, not a historical third-party incident |
+| Four behavior tests, unchanged across snapshots | **Before: 2 failures / 4 tests. After: 4 passes / 4 tests.** |
+| Source, contract, manifest, and license | Exact bytes bound by the captured [verification record](examples/borrowed-menu/verification.json) |
 
-| Inspect | Investigate | Reveal |
-|---|---|---|
-| Read source excerpts and the failing test log. Every excerpt has a file, line range, and fingerprint. | Select a candidate function, record your theory, and open up to three progressively stronger hints. | Compare your reasoning with the actual patch and the same tests passing after the fix. |
+**[Start the investigation →](https://k-kiron.github.io/RepoQuest/)** or download `repoquest-demo-0.1.0.html` from the [release](https://github.com/K-kiron/RepoQuest/releases/tag/v0.1.0). The repository's [demo/index.html](demo/index.html) contains the same case; GitHub's file viewer does not execute it.
 
 ## Install the skill
 
@@ -64,7 +79,8 @@ repoquest --help
 
 The package contains the same renderer and CLI as the portable skill. No package has been published to a registry.
 
-### Manual installation from a clone
+<details>
+<summary>Manual installation from a clone (including PowerShell)</summary>
 
 Copy the **entire** `skills/repoquest` directory into a target project's `.agents/skills/` directory. Keep `SKILL.md`, `scripts/`, `references/`, and `agents/` together.
 
@@ -84,6 +100,8 @@ Use the before and after snapshots in <case-directory> and preserve their proven
 ```
 
 The [skill entry point](skills/repoquest/SKILL.md) tells the agent how to select evidence, curate hints, run the verifier, and check the resulting page. Current host verification is recorded in [docs/verification.md](docs/verification.md).
+
+</details>
 
 ## Make another case
 

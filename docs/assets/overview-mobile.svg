@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="740" viewBox="0 0 480 740" role="img" aria-labelledby="title desc">
+  <title id="title">From a fixed bug to a playable investigation</title>
+  <desc id="desc">Prepare broken and fixed Python code with one test contract. Investigate cited evidence with progressive hints. Reveal the exact patch and the same tests passing. Share one offline HTML case file.</desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+  </defs>
+  <rect width="480" height="740" rx="12" fill="#153d34"/>
+  <rect width="480" height="740" rx="12" fill="url(#grid)"/>
+  <text x="28" y="42" fill="#edddc4" font-family="Consolas, monospace" font-size="16" letter-spacing="2">REPOQUEST / THE CASE FILE</text>
+  <g fill="#faf6ec" font-family="Georgia, serif" font-size="40">
+    <text x="28" y="98">A real failure.</text>
+    <text x="28" y="143">Your investigation.</text>
+  </g>
+  <g font-family="Segoe UI, sans-serif">
+    <rect x="28" y="178" width="424" height="144" rx="4" fill="#f4f0e6"/>
+    <rect x="28" y="344" width="424" height="144" rx="4" fill="#f4f0e6"/>
+    <rect x="28" y="510" width="424" height="144" rx="4" fill="#f4f0e6"/>
+    <g fill="#48685c" font-family="Consolas, monospace" font-size="16" letter-spacing="1">
+      <text x="50" y="210">01 / AUTHOR</text>
+      <text x="50" y="376">02 / PLAYER</text>
+      <text x="50" y="542">03 / PLAYER</text>
+    </g>
+    <g fill="#183f35" font-family="Georgia, serif" font-size="32">
+      <text x="50" y="248">Prepare.</text>
+      <text x="50" y="414">Investigate.</text>
+      <text x="50" y="580">Reveal.</text>
+    </g>
+    <g fill="#26483d" font-size="23">
+      <text x="50" y="280">Broken + fixed code. One contract.</text>
+      <text x="50" y="307">Curated clues.</text>
+      <text x="50" y="446">Cited code. Your theory.</text>
+      <text x="50" y="473">Progressive hints.</text>
+      <text x="50" y="612">The exact patch. The explanation.</text>
+      <text x="50" y="639">Same tests, passing.</text>
+    </g>
+    <g fill="none" stroke="#dcab78" stroke-width="2"><path d="M240 325v15m-5-5 5 5 5-5M240 491v15m-5-5 5 5 5-5"/></g>
+    <text x="240" y="693" text-anchor="middle" fill="#f4f0e6" font-size="25">One offline HTML file.</text>
+    <text x="240" y="722" text-anchor="middle" fill="#cfdbcf" font-size="21">No account. No server.</text>
+  </g>
+</svg>
