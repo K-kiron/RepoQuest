@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "case_id": "the-borrowed-menu",
+  "inputs": {
+    "LICENSE.txt": "aa51c0cfad4e1af314078d4c43f79b715568c53d61687965d1e6f2e90795e64b",
+    "after/cafe.py": "339adaaecc3a162bdd7477268de1c0f63d080f536752d1e719063816598c6a32",
+    "before/cafe.py": "9bc599d7ec7b14610f0970452f7e959b32812e9fda72cab67d682d1fc10227e8",
+    "case.json": "b8783ce6d97c7edffbe1bd6277ace4f5624b09b768ad1e849de1b8cd5aec6f2d",
+    "contract.py": "66626882801295cb3a926a7695961e01f5611d9e3029bf57604adb2754d3d12a"
+  },
+  "captured_at": "2026-09-23T02:04:28.187535+00:00",
+  "python": "3.11.5",
+  "platform": "win32",
+  "before": {
+    "tests": 4,
+    "test_ids": [
+      "quest_contract.MenuContract.test_customer_menus_are_independent",
+      "quest_contract.MenuContract.test_default_menu",
+      "quest_contract.MenuContract.test_next_customer_gets_default_menu",
+      "quest_contract.MenuContract.test_special_is_added"
+    ],
+    "failures": [
+      "quest_contract.MenuContract.test_customer_menus_are_independent",
+      "quest_contract.MenuContract.test_next_customer_gets_default_menu"
+    ],
+    "errors": [],
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "log": "test_customer_menus_are_independent (quest_contract.MenuContract.test_customer_menus_are_independent) ... FAIL\ntest_default_menu (quest_contract.MenuContract.test_default_menu) ... ok\ntest_next_customer_gets_default_menu (quest_contract.MenuContract.test_next_customer_gets_default_menu) ... First customer: soup, bread, cake\nSecond customer: soup, bread, cake\nFAIL\ntest_special_is_added (quest_contract.MenuContract.test_special_is_added) ... ok\n\n======================================================================\nFAIL: test_customer_menus_are_independent (quest_contract.MenuContract.test_customer_menus_are_independent)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<snapshot>\\__rq_contract__.py\", line 26, in test_customer_menus_are_independent\n    self.assertEqual(receipt(first), \"soup, bread\")\nAssertionError: 'soup, bread, cake' != 'soup, bread'\n- soup, bread, cake\n?            ------\n+ soup, bread\n\n\n======================================================================\nFAIL: test_next_customer_gets_default_menu (quest_contract.MenuContract.test_next_customer_gets_default_menu)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<snapshot>\\__rq_contract__.py\", line 20, in test_next_customer_gets_default_menu\n    self.assertEqual(receipt(second), \"soup, bread\")\nAssertionError: 'soup, bread, cake' != 'soup, bread'\n- soup, bread, cake\n?            ------\n+ soup, bread\n\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2)\n"
+  },
+  "after": {
+    "tests": 4,
+    "test_ids": [
+      "quest_contract.MenuContract.test_customer_menus_are_independent",
+      "quest_contract.MenuContract.test_default_menu",
+      "quest_contract.MenuContract.test_next_customer_gets_default_menu",
+      "quest_contract.MenuContract.test_special_is_added"
+    ],
+    "failures": [],
+    "errors": [],
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "log": "test_customer_menus_are_independent (quest_contract.MenuContract.test_customer_menus_are_independent) ... ok\ntest_default_menu (quest_contract.MenuContract.test_default_menu) ... ok\ntest_next_customer_gets_default_menu (quest_contract.MenuContract.test_next_customer_gets_default_menu) ... First customer: soup, bread, cake\nSecond customer: soup, bread\nok\ntest_special_is_added (quest_contract.MenuContract.test_special_is_added) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+  }
+}

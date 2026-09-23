@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "the-borrowed-menu",
+  "title": "Who ordered the extra cake?",
+  "brief": "The first customer asks for cake. The next customer orders the regular lunch, but cake appears on their receipt too. A fresh service works perfectly. Follow the two requests and find what crossed the counter.",
+  "brief_refs": ["customer-contract", "menu-service"],
+  "objective": "Locate the function that lets one customer's request change another customer's menu. Explain why the existing copy does not prevent it.",
+  "provenance": {
+    "kind": "self-authored",
+    "origin": "An original RepoQuest teaching fixture. The cafe and incident are fictional; the Python behavior and captured test failures are reproducible. This is not a third-party historical bug.",
+    "license": "MIT",
+    "license_files": ["LICENSE.txt"]
+  },
+  "files": ["cafe.py"],
+  "contract": "contract.py",
+  "evidence": [
+    {"id": "menu-source", "label": "A clean start", "path": "before/cafe.py", "start": 1, "end": 5},
+    {"id": "menu-service", "label": "One service, two customers", "path": "before/cafe.py", "start": 8, "end": 16},
+    {"id": "receipt", "label": "The receipt printer", "path": "before/cafe.py", "start": 19, "end": 20},
+    {"id": "customer-contract", "label": "What every customer should receive", "path": "contract.py", "start": 7, "end": 27}
+  ],
+  "suspects": [
+    {"name": "load_menu", "ref": "menu-source"},
+    {"name": "MenuService.menu_for", "ref": "menu-service"},
+    {"name": "receipt", "ref": "receipt"}
+  ],
+  "hints": [
+    {"text": "Compare a fresh service with two requests handled by the same service. Which object survives both requests?", "refs": ["customer-contract", "menu-service"]},
+    {"text": "The outer dictionary is copied. Follow the value stored under items: does the code create another list?", "refs": ["menu-service"]},
+    {"text": "Appending the special mutates the list shared with the cached menu. Each returned menu needs its own items list before anything is appended.", "refs": ["menu-service", "customer-contract"]}
+  ],
+  "solution": {
+    "function": "MenuService.menu_for",
+    "text": "dict.copy() copies the outer dictionary but retains the same items list. Appending cake changes the cached list, so later customers inherit it; previously returned menus also change. The patch copies the items list for each request. That is sufficient for this fixture because its items are immutable strings; it is not a general deep-copy guarantee. The unchanged behavior contract checks both later and earlier customers.",
+    "refs": ["menu-service", "customer-contract", "menu-source"]
+  }
+}

@@ -1,0 +1,26 @@
+name: Verify quests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - run: python skills/repoquest/scripts/quest.py verify examples/borrowed-menu/case.json --trust-code
+      - run: python skills/repoquest/scripts/quest.py build examples/borrowed-menu/case.json --output output/quest.html
+      - run: python -m pip install .
+      - run: repoquest build examples/borrowed-menu/case.json --output output/installed.html

@@ -1,0 +1,4 @@
+interface:
+  display_name: "RepoQuest"
+  short_description: "Build a playable mystery from a reproducible bug"
+  default_prompt: "Use $repoquest to turn this fixed Python bug into an evidence-backed debugging quest."
